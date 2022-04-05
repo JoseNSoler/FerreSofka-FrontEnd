@@ -136,14 +136,14 @@ const Section = (props) => {
     else{
         return (
         
-            <Container className="resultCont">
+            <Container>
                 <div style={{fontWeight: 'bolder'}}>
                     Manejo de inventarios y creacion de facturas
                 </div>
     
                 <Filters />
     
-                <TableExample props={props.data}/>
+                {props.loading ?  <>""</> : <TableExample props={props.data}/>}
             
     
             </Container>
@@ -154,7 +154,7 @@ const Section = (props) => {
 }
 
 //<Results />
-
+// <TableExample props={props.data}/>
 
 const stateMapToPros = state => {
     return { data: state.allForOne.result, char: state.allForOne.character, loading: state.allForOne.loading }

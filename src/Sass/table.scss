@@ -5,16 +5,39 @@
         border: black;
         border-style: solid;
         padding: 1%;
+        margin: 2% 0 2% 0;
+
+        .headInventory{
+            .standards{
+                display: flex;
+
+                .maximus .minimus{
+
+                }
+            }
+        }
 
         .tableInventory{
 
 
+            .tableHead{
+                .tableHeadInfo{
+                    background-color: aqua;
+                    text-align: center;
+                }
+            }
+
             .productCategory{
                 font-size:80%;
                 padding: 0.5%;
+                
 
                 .product{
                     padding: 2%;
+                }
+
+                .check{
+                    width: 50px;
                 }
             }
         }

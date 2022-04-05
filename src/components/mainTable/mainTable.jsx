@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 
 import '../../Sass/table.scss'
+import '../../Sass/App.scss'
 
 export default function TableExample(props) {
     var data = props.props; // traer inventario e id
     console.log(props)
+
+    const [ productsFinal, setproductsFinal ] = useState([""]);
+
+    const clickProduct = (e, product) => {
+        var index = productsFinal.includes(product)
+        (index !== false) ? setproductsFinal(productsFinal.filter(item => item !== product))
+        : setproductsFinal([...productsFinal, product])
+    }
 
 
     const listaTable = () => {
@@ -21,18 +30,25 @@ export default function TableExample(props) {
                             <Col md={6}>
                                 Referencia : {element.referenciaNombre}
                             </Col>
-                            <Col>Maximo = {element.maximoPermitido} -- Minimo = {element.minimoRequerido}</Col>
+                            <Col className='standards' variant="success">
+                                <Button className='maximus'>
+                                    Maximo = {element.maximoPermitido}
+                                </Button>
+                                <Button className='minimus' variant="danger"> 
+                                    Minimo = {element.minimoRequerido}
+                                </Button>
+                            </Col>
                         </Row>
-                        <Table className='tableInventory'>
-                            <Thead>
-                                <Tr>
-
+                        <Table className='table-bordered tableInventory'>
+                            <Thead className='tableHead'>
+                                <Tr className='tableHeadInfo'>
+                                    <Th>Check</Th>
                                     <Th>Id</Th>
                                     <Th>Referencia completa</Th>
                                     <Th>Nombre Proveedor</Th>
                                     <Th>
                                         <div>
-                                            ID referencia proveedor
+                                            IDProveedor Ref.
                                         </div>
                                     </Th>
                                     <Th>valor</Th>
@@ -44,6 +60,9 @@ export default function TableExample(props) {
                                 {element.productos.map((product) => {
                                     return (
                                         <Tr className='productCategory'>
+                                            <Td className='product check'>
+                                                <input type="checkbox" onClick={e => clickProduct(e, product)}/>
+                                            </Td>
                                             <Td className='product'>
                                                 {product.id}
                                             </Td>

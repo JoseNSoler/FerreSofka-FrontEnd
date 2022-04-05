@@ -11,6 +11,8 @@ en proceso de grabacion
 
 Creacion responsive por medio de react-bootstrap, react-super-responsive-table / react-table / redux
 
+
+
 /----
 Se debe tener instalado Java version 11, Node.js (en su version LTS disponible)
 

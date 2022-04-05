@@ -1,5 +1,5 @@
-# Front End Responsive usando la API publica de Rick And Morty
-
+# Front End Responsive - ReactJs Redux
+... porfavor referirse a commits mas recientes producto del trabajo de esta madrugada, gracias
 
 <p align="center">
 <img src="https://www.sofka.com.co/wp-content/uploads/2021/02/sofkau-logo-horizontal.png">
@@ -7,30 +7,16 @@
 
 ## VIDEO
 
-https://www.youtube.com/watch?v=eMjqnGcMZEo
+en proceso de grabacion
 
-video con un breve recorrido mostrando el funcionamiento
+Creacion responsive por medio de react-bootstrap, react-super-responsive-table / react-table / redux
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/59320487/160401515-545549f2-3001-4982-8341-f349336debb5.png">
-</p>
+/----
+Se debe tener instalado Java version 11, Node.js (en su version LTS disponible)
 
+Para ejecutar las aplicaciones, ejecutar los siguientes pasos cada uno en una ventana cmd individual
+- primero dirigirse a la carpeta BACKEND y ejecutar mvnw.cmd spring-boot:run (./mvnw para usuarios linux)
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/59320487/160403307-5365fe36-54aa-4e3b-aa76-5f1a05ee2ec8.png">
-</p>
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/59320487/160403428-fde91f6e-6e76-431b-8c00-3a1d7b57701c.png">
-</p>
-
-
-## Video explicativo
-
-En progreso de grabado
-
-
-
-## Descripcion general
-
-Aplicacion React con react-bootstrap, redux, redux-persistence, sass, react
+- Segundo, debe dirigirse a las carpetas frontend\my-app, y ejecutar los comandos:
+ - npm install
+ - npm run

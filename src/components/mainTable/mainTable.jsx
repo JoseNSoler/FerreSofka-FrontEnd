@@ -8,22 +8,32 @@ import '../../Sass/table.scss'
 import '../../Sass/App.scss'
 
 export default function TableExample(props) {
+    const [ productsFinal, setproductsFinal ] = useState([]);
     var data = props.props; // traer inventario e id
     console.log(props)
+    console.log(productsFinal)
 
-    const [ productsFinal, setproductsFinal ] = useState([""]);
+    
 
     const clickProduct = (e, product) => {
-        var index = productsFinal.includes(product)
-        (index !== false) ? setproductsFinal(productsFinal.filter(item => item !== product))
-        : setproductsFinal([...productsFinal, product])
+
+        if (!productsFinal.find( elem => elem === product)) {
+            setproductsFinal([...productsFinal, product])
+            console.log(productsFinal)
+            
+        } 
+        else{
+            console.log("asdas")
+            setproductsFinal(productsFinal.filter(item => item.id != product.id))
+        } 
+
+
     }
 
 
     const listaTable = () => {
         return (
             data.productosInventario.map((element) => {
-                console.log(element)
                 return (
                     <div className='listInventory'>
                         <Row xs={1} md={2} className='headInventory'>
@@ -39,7 +49,7 @@ export default function TableExample(props) {
                                 </Button>
                             </Col>
                         </Row>
-                        <Table className='table-bordered tableInventory'>
+                        <Table striped bordered hover className='table  table-bordered table-striped tableInventory' >
                             <Thead className='tableHead'>
                                 <Tr className='tableHeadInfo'>
                                     <Th>Check</Th>
@@ -76,6 +86,7 @@ export default function TableExample(props) {
 
                             </Tbody>
                         </Table>
+                        
                     </div>
                 )
             })
@@ -87,6 +98,10 @@ export default function TableExample(props) {
         <div className='mainTable'>
             <h3>INVENTARIO ID: {data.id}</h3>
             {listaTable()}
+            <div> <hr />
+
+            </div>
+            <Button className='stickyFacture' variant="success">FACTURAR</Button>
         </div>
 
     );

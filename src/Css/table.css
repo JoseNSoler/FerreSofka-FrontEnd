@@ -1,3 +1,9 @@
+.mainTable .stickyFacture {
+  position: fixed;
+  bottom: 4%;
+  width: 100px;
+  right: 4%;
+}
 .mainTable .listInventory {
   border-radius: 10px;
   border: black;

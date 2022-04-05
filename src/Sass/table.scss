@@ -1,0 +1,22 @@
+.mainTable{
+    .listInventory{
+        border-radius: 10px;
+
+        border: black;
+        border-style: solid;
+        padding: 1%;
+
+        .tableInventory{
+
+
+            .productCategory{
+                font-size:80%;
+                padding: 0.5%;
+
+                .product{
+                    padding: 2%;
+                }
+            }
+        }
+    }
+}

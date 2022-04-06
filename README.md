@@ -9,7 +9,7 @@
 
 ## VIDEO
 
-en proceso de grabacion
+https://www.youtube.com/watch?v=WOQcViKLIAU
 
 Creacion responsive por medio de react-bootstrap, react-super-responsive-table / react-table / redux
 

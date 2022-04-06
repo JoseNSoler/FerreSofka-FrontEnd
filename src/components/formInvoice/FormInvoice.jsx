@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Row, Form, Col, InputGroup, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { modifyOrder } from '../../actions'
+
 
 
 const formInvoice = (props) => {
@@ -21,9 +23,7 @@ const formInvoice = (props) => {
     obj["referenciaID"] = data["referenciaID"].value
     obj["valor"] = data["valor"].value
 
-    console.log(event.target.elements);
-
-    setObjects([
+    setObjects([...objects,
       obj
     ])
 
@@ -31,12 +31,14 @@ const formInvoice = (props) => {
       event.preventDefault();
       event.stopPropagation();
 
-      console.log(obj)
-      
+      console.log(obj)   
     }
+    else{
+      props.dispatch(modifyOrder(props, objects))
+    }
+    
 
-
-    props.dispatch(modifyOrder(objects))
+    
 
     setValidated(true);
   };
@@ -125,5 +127,13 @@ const formInvoice = (props) => {
     </Form>
   );
 }
+const stateMapToPros = state => {
+  return { data: state.allForOne.result, char: state.allForOne.character,
+      loading: state.allForOne.loading, id: state.allForOne.idInv, products: state.allForOne.orderProducts }
 
-export default formInvoice;
+}
+
+
+export default connect(stateMapToPros)(formInvoice)
+
+

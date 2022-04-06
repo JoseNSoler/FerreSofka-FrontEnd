@@ -7,7 +7,9 @@ const initialState = {
     character:{},
     loading: false,
     idInv: 0,
-    orderProducts: []
+    orderProducts: [],
+    finalProducts: []
+
 };
 
 
@@ -24,6 +26,12 @@ function allForOne(state = initialState, action) {
             return {
                 ...state,
                 orderProducts: action.products
+            }
+        }
+        case "makeInvoice":{
+            return {
+                ...state,
+                finalProducts: state.finalProducts
             }
         }
         case "All": {
@@ -52,13 +60,7 @@ function allForOne(state = initialState, action) {
             if(state.user !== undefined) return  { ...state, user: (state.user.includes(action.fav) ? state.user.filter( char => char !== action.fav ) : [...state.user, action.fav]) }
    
         }
-        case "Character": {
-            return {
-                ...state,
-                character: action.char,
-                result: action.data
-            }
-        }
+
 
 
         default: return state

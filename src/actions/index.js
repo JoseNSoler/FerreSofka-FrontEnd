@@ -133,6 +133,10 @@ export const modifyOrder = (state, productsnew) => (dispatch) => {
     return dispatch({type: "modifyOrder", products: productsnew})
 }
 
+export const makeInvoice = (state, productsnew) => (dispatch) => {
+    console.log("sasdasdasdasdasd")
+    return dispatch({type: "makeInvoice", finalProducts: productsnew})
+}
 
 
 

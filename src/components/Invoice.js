@@ -18,6 +18,7 @@ const Invoice = (props) => {
         if(
             props.data
         && Object.keys(props.data).length !== 0
+        && props.data.productosInventario
         ){
             return (
             
@@ -41,6 +42,13 @@ const Invoice = (props) => {
                         
                     </Row>
                 </div>
+            )
+        }
+        else{
+            return(
+                <h3>
+                Si no puede ver los filtros requeridos, porfavor de click en inventario y seguidamente en Registro de entrada inventario otravez
+                </h3>
             )
         }
         

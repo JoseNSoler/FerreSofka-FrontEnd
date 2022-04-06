@@ -12,7 +12,7 @@ const PerNavbar = (props) => {
                 <Navbar.Collapse id="responsive-navbar-nav" className='perNavBar'>
                     <Nav className="me-auto">
                         <Nav.Link href="/Front_FerreteriaSofka/all">Inventario</Nav.Link>
-                        <Nav.Link href="/Front_FerreteriaSofka/otro">Registro Entrada inventario</Nav.Link>
+                        <Nav.Link href="/Front_FerreteriaSofka/entradaProducto">Registro Entrada inventario</Nav.Link>
                     </Nav>
                     <Nav>
                         <Nav.Link eventKey={2} href="/Front_FerreteriaSofka/factura">

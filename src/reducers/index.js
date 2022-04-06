@@ -6,6 +6,8 @@ const initialState = {
     user:[],
     character:{},
     loading: false,
+    idInv: 0,
+    orderProducts: []
 };
 
 
@@ -14,18 +16,22 @@ function allForOne(state = initialState, action) {
         case "Loading": {
             return {
                 ...state,
-                result: {},
-                loading: true
+                loading: true,
+                idInv: action.id
+            }
+        }
+        case "modifyOrder":{
+            return {
+                ...state,
+                orderProducts: action.products
             }
         }
         case "All": {
             console.log("entramos a alll")
             return {...state, result: action.data, loading: false }
         }
-
-        
-        case "FilterAlive": {
-            return { ...state, result: action.data}
+        case "FilterRef": {
+            return { ...state, result: action.data, idInv: action.id, loading: false}
         }
         case "FilterMany": {
             return { ...state, result: action.data}

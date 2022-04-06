@@ -10,14 +10,21 @@ import { createLogger } from 'redux-logger'
 import reducer from './reducers'
 
 
+import MainInvoice from './containers/MainInvoice'
 import App from './containers/App'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import PerNavbar from './components/PerNavbar'
 
+import Invoice from './components/Invoice'
+
 import Character from './components/Character'
 
 import Favorites from './components/Favorites'
+
+
+
+import Newproducts from './components/newProducts/newProducts'
 
 import {PersistGate} from 'redux-persist/lib/integration/react';
 
@@ -54,23 +61,23 @@ const store3 = createStore(
 const persistor3 = persistStore(store3)
 
 
-
-
+//<PersistGate loading={null} persistor={persistor3}>
+//</PersistGate>
 
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store3}>
-    <PersistGate loading={null} persistor={persistor3}>
+    
       <PerNavbar/>
       <Routes>
         <Route path="/Front_FerreteriaSofka/home" exact element={<><h1>SISTEMA MANEJO DE INVENTARIOS, BIENVENIDO USUARIO</h1></>}/>
         <Route path="/Front_FerreteriaSofka/all" exact element={<><App/></>}/>
-        <Route path="/Front_FerreteriaSofka/producto" exact element={<><Character/></>}/>
+        <Route path="/Front_FerreteriaSofka/entradaProducto" exact element={<><MainInvoice/></>}/>
         <Route path="/Front_FerreteriaSofka/factura" exact  element={<><Favorites/></>}/>
         
       </Routes>
-      </PersistGate>
+      
 
     </Provider>
   </BrowserRouter>,

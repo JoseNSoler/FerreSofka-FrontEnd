@@ -1,7 +1,10 @@
-import { Container, Row, Col, Card, Button, Form, Stack } from "react-bootstrap"
+import { Container, Row, Col, Card, Button, Form, Stack, Spinner } from "react-bootstrap"
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux';
-import {getAllCharacters, filterAlive, filterMany, page, characterInfo, loading } from '../actions'
+import { filterRef, loading } from '../actions'
+
+
+
 
 import { Navigate, useNavigate  } from 'react-router-dom';
 
@@ -9,6 +12,8 @@ import  TableExample  from './mainTable/mainTable'
 
 
 const Section = (props) => {
+    var numID = (props.data.id) ? props.data.id : props.id
+    console.log(props.id)
 
     let navigate = useNavigate();
     
@@ -17,7 +22,7 @@ const Section = (props) => {
 
     const [resultList2, setResultList2] = useState(["uno", "aaasd", "fgdf", "rtert"]);
 
-    const [resultList, setResultList] = useState([]);
+    const [resultList, setResultList] = useState();
 
     const [filterProvStr, setFilterProvStr] = useState();
 
@@ -33,9 +38,12 @@ const Section = (props) => {
         setFilterProvStr(e.target.value)
     }
 
-    const refClick = (e) => {
+    const referenceClick = (e) => {
         e.preventDefault();
+        console.log("sadasasdasdsd")
         setFilterRefStr(e.target.value)
+    
+        
     }
 
     //  ------------------------------------------------ filtros---------------------------------------------------
@@ -43,14 +51,18 @@ const Section = (props) => {
         return (
             <Row xs={1} md={2} lg={3} style={{margin: '1.5rem 0 1.5rem 0'}}>
                 <Col>
-                    <Form.Select aria-label="Proveedor" className="selectionProoveedor" defaultValue={filterProvStr}>
-                        <option value="Sapolio" onClick={(e) => provClick(e)}>Sapolio</option>
-                        <option value="GreenOne" onClick={(e) => provClick(e)} >GreenOne</option>
-                        <option value="Metallica" onClick={(e) => provClick(e)} >Metallica</option>
+                    <Form.Select aria-label="Referencia" className="selectionReferencia" defaultValue={filterRefStr}
+                    onChange={(e) => {
+                        if (typeof(e.target.value) != 'undefined') referenceClick(e)
+                    }}>
+                        <option value="soldadores">soldadores</option>
+                        <option value="metales" >metales</option>
+                        <option value="protectores">protectores</option>
+                        <option value="pinturas">pinturas</option>
                     </Form.Select>
                 </Col>
                 <Col>
-                    <Form.Select aria-label="Referencia" className="selectionReferencia" defaultValue={filterRefStr}>
+                    <Form.Select aria-label="Proveedor" className="selectionProoveedor" defaultValue={filterProvStr}>
                         <option value="Female" onClick={(e) => refClick(e)}>Female</option>
                         <option value="Male" onClick={(e) => refClick(e)} >Male</option>
                         <option value="Genderless" onClick={(e) => refClick(e)} >Genderless</option>
@@ -62,13 +74,16 @@ const Section = (props) => {
 
         )
     }
+    //props.dispatch(filterRef(filterRefStr))
 
     useEffect(() => {
-        console.log("sdad")
-        console.log(props.data)
+
+        (filterRefStr) ? props.dispatch(filterRef(setState ,numID , filterRefStr )) :
         props.dispatch(loading(setState))
 
-    }, [filterRefStr, filterProvStr]);
+        console.log(resultList)
+
+    }, [filterRefStr, filterProvStr, resultList]);
 
 
     //  ------------------------------------------------ Resultados ---------------------------------------------------
@@ -82,32 +97,6 @@ const Section = (props) => {
         navigate("/Front_RickAndMorty/character", { replace: true });
     }
 
-/*
-    const Results = () => {
-        console.log(props)
-        return (
-            <Row xs={1} md={2} lg={3} xl={4}>
-                {props.data.results ? props.data.results.map((item) => (
-                    <Col key={item.id}>
-
-                        <Card className="backCard" style={{ width: '18rem', height: '26rem', margin: '4% 0 4% 0' }}>
-                            <div className="ContImgCard"> <Card.Img variant="top" src={item.image} className="imgCard" /> </div>
-                            <Card.Body style={{padding: '1.1rem 2rem'}}>
-                                <Card.Title style={{margin:'0 0 0.1rem 0',  fontWeight: 'bolder'}} >{item.name}</Card.Title>
-                                <Card.Text style={{margin:'0 0 0.1rem 0'}}>
-                                    {item.status} -
-                                    {item.gender} -
-                                    {item.species}
-                                </Card.Text>
-                                <Button style={{margin:'0 0 0 2.2rem'}} variant="primary" href="/Front_RickAndMorty/character" onClick={(e) => sendCharacter(e, item)} >Agregar Favorito</Button>
-                            </Card.Body>
-                        </Card>
-
-                    </Col>
-                )) : "asdasd"}
-            </Row>
-        )
-    }*/
 
     const pageClick = (e) => {
         setPrevPage("")
@@ -130,34 +119,29 @@ const Section = (props) => {
         )
     }
 
-    if(props.loading == true) {
-        return (<h1>CARGANDO....</h1>)
-    }
-    else{
-        return (
+    return (props.loading == true) ? (<Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span>
+  </Spinner>) : (
         
-            <Container>
-                <div style={{fontWeight: 'bolder'}}>
-                    Manejo de inventarios y creacion de facturas
-                </div>
-    
-                <Filters />
-    
-                {props.loading ?  <>""</> : <TableExample props={props.data}/>}
-            
-    
-            </Container>
-        )
-    }                          
+        <Container>
+            <div style={{fontWeight: 'bolder'}}>
+                Manejo de inventarios y creacion de facturas
+            </div>
 
+            <Filters />
+            {props ? <TableExample props={props}></TableExample> : <>""</>}
+
+
+        </Container>
+    )
     
 }
-
+// 
 //<Results />
 // <TableExample props={props.data}/>
 
 const stateMapToPros = state => {
-    return { data: state.allForOne.result, char: state.allForOne.character, loading: state.allForOne.loading }
+    return { data: state.allForOne.result, char: state.allForOne.character,
+        loading: state.allForOne.loading, id: state.allForOne.idInv }
 
 }
 

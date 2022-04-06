@@ -10,6 +10,7 @@ import '../../Sass/App.scss'
 import { makeInvoice } from '../../actions';
 import { connect } from 'react-redux';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const TableExample = (props) => {
 
@@ -165,9 +166,10 @@ const TableExample = (props) => {
 
     }
 
+    
     const listObj = () => {
         return (
-            <div>
+            <div id="elements">
                 {productsFinal.map((element) => {
                     return (
                         <>
@@ -196,6 +198,22 @@ const TableExample = (props) => {
                 })}
             </div>
         )
+    }
+
+    const handlePdf = () => {
+
+        console.log(document.getElementById('button'))
+        
+        let input = document.getElementById('elements');
+        html2canvas(input)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            let pdf = new jsPDF();
+            pdf.addImage(imgData, 'JPEG', 0, 0);
+            pdf.save("download.pdf");
+          })
+        ;
+
     }
 
     const sendFinal = (e) => {
@@ -247,29 +265,24 @@ const TableExample = (props) => {
                 return true;
             }
         };
-        doc.html(
-            <>sadsdf</>,
-            15,
-            15,
-            {
-                'width': 180, 'elementHandlers': elementHandler
-            });
 
-        doc.output("dataurlnewwindow");
+        handlePdf();
         
 
         //navigate("/Front_FerreteriaSofka/factura", { replace: true });
     }
 
+    var myTextInput;
     if (data !== undefined) {
         return (data.hasOwnProperty('id')) ? (
-            <div className='mainTable'>
+            <div className='mainTable' id="mainTable">
                 <h3>INVENTARIO ID: {(data.id) ? data.id : data.data.id}</h3>
                 {listaTable()}
+                {listObj()}
                 <div> <hr />
 
                 </div>
-                <Button className='stickyFacture' variant="success" onClick={(e) => sendFinal(e)}>FACTURAR</Button>
+                <Button id="button" className='stickyFacture' variant="success" onClick={(e) => sendFinal(e)}>FACTURAR</Button>
             </div>
         ) : (
             <>void vodo</>
@@ -279,6 +292,8 @@ const TableExample = (props) => {
     }
 
 }
+
+
 
 
 const stateMapToPros = state => {

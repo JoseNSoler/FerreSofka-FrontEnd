@@ -27,8 +27,8 @@ const Invoice = (props) => {
                         
                             {props.data.productosInventario.map((element) => {
                                 return(
-                                    <Col xs={6} md={4}>
-                                    <div>
+                                    <Col xs={6} md={4} >
+                                    <div  key={element.id}>
                                         <Alert variant="success">
                                             <Alert.Heading>{element.referenciaNombre}</Alert.Heading>
                                             <p>Solo se pueden almacenar un maximo de {element.maximoPermitido} productos

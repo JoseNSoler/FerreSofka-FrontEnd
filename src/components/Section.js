@@ -4,7 +4,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { filterRef, loading } from '../actions'
 
 
-
+import '../Sass/App.scss'
 
 import { Navigate, useNavigate  } from 'react-router-dom';
 
@@ -122,7 +122,7 @@ const Section = (props) => {
     return (props.loading == true) ? (<Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span>
   </Spinner>) : (
         
-        <Container>
+        <Container className="mainBox">
             <div style={{fontWeight: 'bolder'}}>
                 Manejo de inventarios y creacion de facturas
             </div>

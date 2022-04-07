@@ -133,9 +133,9 @@ export const modifyOrder = (state, productsnew) => (dispatch) => {
     return dispatch({type: "modifyOrder", products: productsnew})
 }
 
-export const makeInvoice = (state, productsnew) => (dispatch) => {
+export const makeInvoice = (state, productsnew, finalInvoice) => (dispatch) => {
     console.log("sasdasdasdasdasd")
-    return dispatch({type: "makeInvoice", finalProducts: productsnew})
+    return dispatch({type: "makeInvoice", finalProducts: productsnew, finalInvoice: finalInvoice})
 }
 
 

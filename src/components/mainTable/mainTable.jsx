@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Form, InputGroup, Alert } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import '../../Sass/table.scss'
@@ -19,6 +19,7 @@ const TableExample = (props) => {
     const [productsFinal, setproductsFinal] = useState([]);
     const [counter, setCounter] = useState(10);
     const [counterX, setCounterX] = useState(2);
+    const [counterTotal, setCounterTotal] = useState(0);
     var data = props.props; // traer inventario e id
 
 
@@ -26,19 +27,28 @@ const TableExample = (props) => {
     console.log(productsFinal)
 
 
+    useEffect(() => {
+        console.log("asasdasd")
+        setCounterTotal(Object.keys(productsFinal).reduce((prev, key) => {
+            console.log(prev + productsFinal[key].valor)
+            return prev + productsFinal[key].valor;
+        }, 0))
+    }, [productsFinal, counterTotal]);
 
     const clickProduct = (e, product, minimo) => {
         console.log(minimo)
         if (!productsFinal.find(elem => elem === product)) {
 
             setproductsFinal([...productsFinal, product])
-            console.log(data.id, productsFinal);
-
+            
         }
         else {
             console.log("asdas");
             setproductsFinal(productsFinal.filter(item => item.id != product.id))
         }
+
+        
+        console.log(data.id, productsFinal, counterTotal);
 
 
     }
@@ -85,9 +95,9 @@ const TableExample = (props) => {
                                 </Thead>
 
                                 <Tbody>
-                                    {element.productos.map((product) => {
+                                    {element.productos.map((product, index) => {
                                         return (
-                                            <Tr className='productCategory'>
+                                            <Tr className='productCategory' key={index}>
                                                 <Td className='product check'>
                                                     <input type="checkbox" onClick={e => clickProduct(e, product, element.minimoRequerido)} />
                                                 </Td>
@@ -166,8 +176,147 @@ const TableExample = (props) => {
 
     }
 
-    
+
+
     const listObj = () => {
+        console.log(props)
+        const [validated, setValidated] = useState(false);
+
+        const refer = useRef()
+
+        const handleSubmit = (event) => {
+            const form = event.currentTarget;
+            const data = event.target.elements;
+
+            const obj = {}
+
+
+            console.log(data["total"].value)
+
+
+            obj["id"] = data["id"].value
+            obj["productos"] = productsFinal
+            obj["nombreBeneficiario"] = data["nombreBeneficiario"].value
+            obj["identificacion"] = data["identificacion"].value
+            obj["tipo"] = data["tipo"].value
+            obj["total"] = data["total"].value
+
+            //props.dispatch(modifyOrder(props, objects))
+
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                refer.current.scrollIntoView({ behavior: 'smooth' })
+
+                console.log(obj);
+            }
+            else {
+                event.preventDefault();
+                event.stopPropagation();
+                props.dispatch(makeInvoice(props, productsFinal, obj));
+                handlePdf(refer);
+            }
+
+            console.log(productsFinal)
+            
+            setValidated(true);
+        };
+
+        return (
+            <Form noValidate validated={validated} onSubmit={handleSubmit} ref={refer} id="facturaTest">
+                <Row className="mb-3">
+
+                    <Form.Group as={Col} md="4" controlId="validationCustom01">
+                        <Form.Label>ID Facturat</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="id"
+                            defaultValue=""
+                            name="id"
+                        />
+                        <Form.Control.Feedback>Bien</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group as={Col} md="4" controlId="validationCustom02">
+                        <Form.Label>Tipo</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="tipo"
+                            name="tipo"
+                            defaultValue=""
+                        />
+                        <Form.Control.Feedback>Bien</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+                        <Form.Label>Nombre Beneficiario</Form.Label>
+                        <InputGroup hasValidation>
+                            <Form.Control
+                                type="text"
+                                placeholder="nombreBeneficiario"
+                                name="nombreBeneficiario"
+                                aria-describedby="nombreBeneficiario"
+                                required
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Nombre Beneficiario invalido
+                            </Form.Control.Feedback>
+                        </InputGroup>
+                    </Form.Group>
+
+                </Row>
+
+                <Row className="mb-3">
+
+                    <Form.Group as={Col} md="6" controlId="validationCustom03">
+                        <Form.Label>Identificacion Beneficiario</Form.Label>
+                        <Form.Control type="text" placeholder="identificacion" required name="identificacion" />
+                        <Form.Control.Feedback type="invalid">
+                            Identificacion Beneficiario debe ser valido
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} md="3" controlId="validationCustom05">
+                        <Form.Label>Total</Form.Label>
+                        <Form.Control type="text" placeholder="total" name="total" value={counterTotal} required />
+                    </Form.Group>
+                </Row>
+                <Row  xs={1} md={2} lg={4}>
+                    {(Object.keys(productsFinal).length !== 0) ? productsFinal.map(
+                        (element) => {
+                            return (
+
+                                <div className='invoiceObjects'>
+                                    <Col>
+                                    <div>
+                                        <Alert variant="success">
+                                            <Alert.Heading>{element.referenciaPrincipal}</Alert.Heading>
+                                            <p>
+                                                Nombre: {element.referencia} <br></br>ID : {element.id} 
+                                            </p>
+                                            <p>
+                                                Referencia ID: {element.referenciaID} <br></br> Proveedor Nombre: {element.proveedorNombre}
+                                            </p>
+                                            <p>
+                                                valor Unitario: {element.valor} <br></br>
+                                            </p>
+                                            <hr />
+                                        </Alert>
+                                    </div>
+                                    </Col>
+                                
+                                </div>
+                            )
+                        }
+                    ) : <>no hay productos</>}
+                </Row>
+
+                <Button type="submit" variant="success" className='stickyFacture'>FACTURAR</Button>
+            </Form>
+        );
+        /*
         return (
             <div id="elements">
                 {productsFinal.map((element) => {
@@ -197,77 +346,27 @@ const TableExample = (props) => {
                     )
                 })}
             </div>
-        )
+        )*/
     }
 
-    const handlePdf = () => {
+    const handlePdf = (refer) => {
 
         console.log(document.getElementById('button'))
-        
-        let input = document.getElementById('elements');
+
+        let input = document.getElementById('facturaTest');
         html2canvas(input)
-          .then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-            let pdf = new jsPDF();
-            pdf.addImage(imgData, 'JPEG', 0, 0);
-            pdf.save("download.pdf");
-          })
-        ;
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                let pdf = new jsPDF();
+                pdf.addImage(imgData, 'JPEG', 15, 15);
+                pdf.save("download.pdf");
+            })
+            ;
 
     }
 
     const sendFinal = (e) => {
         console.log(productsFinal);
-
-        props.dispatch(makeInvoice(props, productsFinal));
-
-        var doc2 = new jsPDF()
-        /*
-        doc.text(10, 10, "FACTURA TEXTO")
-        productsFinal.map((element) => {
-            doc.text((10 + counterX), (20 + counter), element.id)
-            doc.text((50 + counterX), (50 + counter), element.referenciaPrincipal)
-            doc.text((90 + counterX), (70 + counter), element.referencia)
-            doc.text((130 + counterX), (90 + counter), element.referenciaID)
-            doc.text((170 + counterX), (100 + counter), element.proveedorNombre)
-            doc.text(20, (240 + counter), "----------------------------------")
-            setCounter(counter + 20)
-            setCounterX(counterX + 20)
-        })*/
-
-        const columns = [
-            "SOW Creation Date",
-            "SOW Start Date",
-            "Project",
-            "Last Updated",
-            "SOW End Date"
-        ];
-        var opt = {
-            margin: 0.5,
-            filename: 'myfile.pdf',
-            html2canvas: { scale: 1 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait', precision: '12' }
-        };
-        var rows = [
-            [
-                "Dec 13, 2017",
-                "Jan 1, 2018",
-                "ABC Connect - ABCXYZ",
-                "Dec 13, 2017",
-                "Dec 31, 2018"
-            ]
-        ];
-
-
-        var doc = new jsPDF();
-        var elementHandler = {
-            '#ignorePDF': function (element, renderer) {
-                return true;
-            }
-        };
-
-        handlePdf();
-        
 
         //navigate("/Front_FerreteriaSofka/factura", { replace: true });
     }
@@ -282,7 +381,6 @@ const TableExample = (props) => {
                 <div> <hr />
 
                 </div>
-                <Button id="button" className='stickyFacture' variant="success" onClick={(e) => sendFinal(e)}>FACTURAR</Button>
             </div>
         ) : (
             <>void vodo</>

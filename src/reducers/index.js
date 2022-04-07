@@ -8,7 +8,8 @@ const initialState = {
     loading: false,
     idInv: 0,
     orderProducts: [],
-    finalProducts: []
+    finalProducts: [],
+    finalInvoice: {}
 
 };
 
@@ -31,7 +32,8 @@ function allForOne(state = initialState, action) {
         case "makeInvoice":{
             return {
                 ...state,
-                finalProducts: state.finalProducts
+                finalProducts: state.finalProducts,
+                finalInvoice: state.finalInvoice
             }
         }
         case "All": {

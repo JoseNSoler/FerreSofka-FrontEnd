@@ -85,6 +85,52 @@ export const filterAlive = (state, filter) => (dispatch) => {
 }
 
 
+export const createUser = (state, user) => async(dispatch) => {
+
+    const response = await fetch(`http://localhost:8080/usuarios/agregarUsuario`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(user)
+    });
+    if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const jsons = await response.json();
+    
+    console.log("enviando tdatos")
+    return dispatch({type: "createUser", user: user})
+}
+
+
+export const getUsers = (state) => (dispatch) => {
+
+    const getAllUsers = async() => {
+        const response = await fetch('http://localhost:8080/usuarios/mostrarUsuarios', {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error! status: ${response.status}`);
+        }
+
+        const jsons = await response.json();
+        dispatch({ type: "getUsers", users: jsons })
+    }
+
+
+    return getAllUsers();
+
+}
+
+
+
 export const loading = (state) => (dispatch) => {
 
     const getAll = async() => {

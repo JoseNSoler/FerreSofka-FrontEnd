@@ -38,6 +38,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import '../src/style.scss';
 import './Sass/App.scss'
 import MainFinal from './containers/MainFinal'
+import MainUser from './containers/MainUser'
 
 
 const middleware = [ thunk ]
@@ -75,6 +76,8 @@ ReactDOM.render(
         <Route path="/Front_FerreteriaSofka/home" exact element={<><h1>SISTEMA MANEJO DE INVENTARIOS, BIENVENIDO USUARIO</h1></>}/>
         <Route path="/Front_FerreteriaSofka/all" exact element={<><App/></>}/>
         <Route path="/Front_FerreteriaSofka/entradaProducto" exact element={<><MainInvoice/></>}/>
+        <Route path="/Front_FerreteriaSofka/crearUsuario" exact element={<><MainUser/></>}/>
+        
         <Route path="/Front_FerreteriaSofka/factura" exact  element={<><MainFinal/></>}/>
         
       </Routes>

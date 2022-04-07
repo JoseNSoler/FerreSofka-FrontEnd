@@ -9,8 +9,8 @@ const initialState = {
     idInv: 0,
     orderProducts: [],
     finalProducts: [],
-    finalInvoice: {}
-
+    finalInvoice: {},
+    users: []
 };
 
 
@@ -21,6 +21,18 @@ function allForOne(state = initialState, action) {
                 ...state,
                 loading: true,
                 idInv: action.id
+            }
+        }
+        case "createUser":{
+            return{
+                ...state,
+                users: [...state.users, action.user]
+            }
+        }
+        case "getUsers": {
+            return {
+                ...state,
+                users: action.users
             }
         }
         case "modifyOrder":{

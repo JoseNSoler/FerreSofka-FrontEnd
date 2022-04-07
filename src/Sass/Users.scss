@@ -1,0 +1,19 @@
+.mainUsers{
+    border: 2px;
+    border-style: dashed;
+    margin: 2%;
+
+    .actualUsers{
+        background-color: rgb(229, 236, 236);
+        padding: 2%;
+
+        .user{
+            background-color:rgba(169, 169, 169, 0.699);
+        }
+    }
+
+    .newUsers{
+        background-color: rgba(100, 148, 237, 0.788);
+        padding: 2%;
+    }
+}

@@ -23,7 +23,7 @@ const TableExample = (props) => {
     var data = props.props; // traer inventario e id
 
 
-    console.log(props)
+    console.log(props.props.data.id)
     console.log(productsFinal)
 
 
@@ -214,8 +214,8 @@ const TableExample = (props) => {
             else {
                 event.preventDefault();
                 event.stopPropagation();
-                props.dispatch(makeInvoice(props, productsFinal, obj));
                 handlePdf(refer);
+                props.dispatch(makeInvoice(props, productsFinal, obj, props.props.data.id));
             }
 
             console.log(productsFinal)

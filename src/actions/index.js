@@ -114,6 +114,7 @@ export const filterRef = (state, idInv, ref) => async(dispatch) => {
     dispatch({ type: "Loading", id: idInv });
     const response = await fetch(`http://localhost:8080/inventario/productosInventarioPorReferencia/${idInv}/${ref}`, {
         method: 'GET',
+        mode: 'cors',
         headers: {
             accept: 'application/json',
         },
@@ -129,12 +130,31 @@ export const filterRef = (state, idInv, ref) => async(dispatch) => {
 }
 
 export const modifyOrder = (state, productsnew) => (dispatch) => {
+    
     console.log("sasdasdasdasdasd")
     return dispatch({type: "modifyOrder", products: productsnew})
 }
 
-export const makeInvoice = (state, productsnew, finalInvoice) => (dispatch) => {
+export const makeInvoice = (state, productsnew, finalInvoice, id) => async (dispatch) => {
+
+    dispatch({ type: "Loading", id: id });
+    const response = await fetch(`http://localhost:8080/movimientosInventario/crearMovimientoPorID/${id}`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(finalInvoice)
+    });
+    if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const jsons = await response.json();
+
     console.log("sasdasdasdasdasd")
+    console.log(jsons)
     return dispatch({type: "makeInvoice", finalProducts: productsnew, finalInvoice: finalInvoice})
 }
 

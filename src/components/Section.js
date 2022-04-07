@@ -124,7 +124,7 @@ const Section = (props) => {
         
         <Container className="mainBox">
             <div style={{fontWeight: 'bolder'}}>
-                Manejo de inventarios y creacion de facturas
+                Manejo de inventarios y creacion de facturas - ACTUALIZAR LA PAGINA PARA VER EL INVETARIO NUEVO DESPUES DE LA FACTURA
             </div>
 
             <Filters />

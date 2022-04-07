@@ -33,7 +33,8 @@ function allForOne(state = initialState, action) {
             return {
                 ...state,
                 finalProducts: state.finalProducts,
-                finalInvoice: state.finalInvoice
+                finalInvoice: state.finalInvoice,
+                loading: false
             }
         }
         case "All": {

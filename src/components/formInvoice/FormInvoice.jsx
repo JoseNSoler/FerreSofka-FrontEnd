@@ -6,9 +6,9 @@ import { modifyOrder } from '../../actions'
 
 
 const formInvoice = (props) => {
-  console.log(props)
+  console.log(props.data.id)
   const [validated, setValidated] = useState(false);
-  const [objects, setObjects] = useState(props.products)
+  const [objects, setObjects] = useState([])
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -23,9 +23,6 @@ const formInvoice = (props) => {
     obj["referenciaID"] = data["referenciaID"].value
     obj["valor"] = data["valor"].value
 
-    setObjects([...objects,
-      obj
-    ])
 
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -34,12 +31,10 @@ const formInvoice = (props) => {
       console.log(obj)   
     }
     else{
-      props.dispatch(modifyOrder(props, objects))
+
+      props.dispatch(modifyOrder(props, [obj], props.data.id, obj["referenciaPrincipal"]))
     }
     
-
-    
-
     setValidated(true);
   };
 

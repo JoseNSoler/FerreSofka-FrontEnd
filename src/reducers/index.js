@@ -26,7 +26,8 @@ function allForOne(state = initialState, action) {
         case "modifyOrder":{
             return {
                 ...state,
-                orderProducts: action.products
+                orderProducts: action.products,
+                loading: false
             }
         }
         case "makeInvoice":{

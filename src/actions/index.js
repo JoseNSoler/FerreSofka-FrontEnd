@@ -129,9 +129,25 @@ export const filterRef = (state, idInv, ref) => async(dispatch) => {
 
 }
 
-export const modifyOrder = (state, productsnew) => (dispatch) => {
+export const modifyOrder = (state, productsnew, id, ref) => async(dispatch) => {
+
+    dispatch({ type: "Loading", id: id });
+    const response = await fetch(`http://localhost:8080/inventario/agregarProductosDeListaPorRef/${id}/${ref}`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(productsnew)
+    });
+    if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const jsons = await response.json();
     
-    console.log("sasdasdasdasdasd")
+    console.log("enviando tdatos")
     return dispatch({type: "modifyOrder", products: productsnew})
 }
 

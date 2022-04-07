@@ -221,10 +221,11 @@ const TableExample = (props) => {
             console.log(productsFinal)
             
             setValidated(true);
-        };
+        }
 
         return (
-            <Form noValidate validated={validated} onSubmit={handleSubmit} ref={refer} id="facturaTest">
+            <Form style={{border: 'black', borderStyle : "dashed", padding : '2%'}}
+                noValidate validated={validated} onSubmit={handleSubmit} ref={refer} id="facturaTest">
                 <Row className="mb-3">
 
                     <Form.Group as={Col} md="4" controlId="validationCustom01">

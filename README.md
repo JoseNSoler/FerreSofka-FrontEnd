@@ -8,7 +8,7 @@
 
 ## VIDEO
 
-https://www.youtube.com/watch?v=WOQcViKLIAU
+https://youtu.be/9xhuCNzCWRs
 
 
 ## Firebase
